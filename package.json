@@ -1,13 +1,13 @@
 {
   "name": "node-api-helpers",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/viralsanghavi/node-api-helper.git"
   },
   "author": "Viral Sanghavi",
   "license": "MIT",
-  "main": "index.js",
+  "main": "build/api/index.js",
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.65.0",
     "@aws-sdk/client-s3": "^3.67.0",
@@ -29,6 +29,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src/**/*.ts test/**/*.ts --fix"
+    "lint": "eslint src/**/*.ts test/**/*.ts --fix",
+    "prepublish": "npm run build"
   }
 }
