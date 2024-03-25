@@ -1,4 +1,4 @@
-import {createHmac} from "crypto";
+// import {createHmac} from "crypto";
 import moment from "moment";
 
 export const HTTP_STATUS_CODES = {
@@ -33,10 +33,15 @@ export const PAGINATION = {
 export const DATE_TIME_FORMAT = "YYYY-MM-DD HH:mm:ss.SSS";
 
 export const getResponse = (
-  obj = {message: "Bad Request"},
-  statusCode = HTTP_STATUS_CODES.BAD_REQUEST,
-  contentType = "application/json"
-) => {
+  obj: any = {message: "Bad Request"},
+  statusCode: number = HTTP_STATUS_CODES.BAD_REQUEST,
+  contentType: string = "application/json"
+): {
+  body: string;
+  statusCode: number;
+  isBase64Encoded?: boolean;
+  headers: any;
+} => {
   let resMessage = {
     body: JSON.stringify(obj),
     statusCode: statusCode,
@@ -56,7 +61,7 @@ export const getResponse = (
  * keyValueObject: {"key1": value1, "key2": value2}
  * output: "key1=value1, key2=value2"
  */
-export const getUpdateQuerySetClauseFormat = (keyValueObject) => {
+export const getUpdateQuerySetClauseFormat = (keyValueObject: any): any => {
   if (!keyValueObject || typeof keyValueObject !== "object") {
     throw new Error("Object type is required");
   }
@@ -74,7 +79,7 @@ export const getUpdateQuerySetClauseFormat = (keyValueObject) => {
  * fieldArray: ["person1", 26, 9876543210]
  * output: "'person1', '26', '9876543210'"
  */
-export const formatInsertQueryValues = (fieldArray) => {
+export const formatInsertQueryValues = (fieldArray: any): any => {
   if (!Array.isArray(fieldArray)) {
     throw new Error("Array is required");
   }
@@ -92,7 +97,10 @@ export const formatInsertQueryValues = (fieldArray) => {
  * availableList: ["two", "three"]
  * returns ["one"]
  */
-export const checkMissingKeys = (requiredList = [], availableList = []) => {
+export const checkMissingKeys = (
+  requiredList = [],
+  availableList = []
+): any => {
   if (!Array.isArray(requiredList) || !Array.isArray(availableList)) {
     throw new Error("Required and Available List must be an array");
   }
@@ -100,20 +108,20 @@ export const checkMissingKeys = (requiredList = [], availableList = []) => {
   return requiredList.filter((element) => availableList.indexOf(element) < 0);
 };
 
-/**
- * @description function hashes numbers and strings.
- * @param {*} dataString string | number
- * @param {*} salt
- * @returns string
- */
-export const createHash = (dataString, salt) => {
-  if (typeof dataString !== "string") {
-    throw new Error("String type is required");
-  }
+// /**
+//  * @description function hashes numbers and strings.
+//  * @param {*} dataString string | number
+//  * @param {*} salt
+//  * @returns string
+//  */
+// export const createHash = (dataString: string, salt: string): string => {
+//   if (typeof dataString !== "string") {
+//     throw new Error("String type is required");
+//   }
 
-  const hmac = createHmac("sha256", salt);
-  return hmac.update(dataString).digest("hex");
-};
+//   const hmac = createHmac("sha256", salt);
+//   return hmac.update(dataString).digest("hex");
+// };
 
 /**
  *
@@ -121,7 +129,10 @@ export const createHash = (dataString, salt) => {
  * @param {*} page
  * @returns { limit: number, offset: number }
  */
-export const getPaginationParams = (limit, page) => {
+export const getPaginationParams = (
+  limit: number,
+  page: number
+): {limit: number; offset: number} => {
   const {LIMIT, MIN_LIMIT, MAX_LIMIT, DEFAULT_PAGE} = PAGINATION;
 
   if (typeof limit !== "number") {
@@ -151,7 +162,7 @@ export const getPaginationParams = (limit, page) => {
  * @param {*} date
  * @returns string
  */
-export const getFormattedDate = (format, date) => {
+export const getFormattedDate = (format: string, date: Date): string => {
   if (date) {
     return moment(date).format(format);
   }
@@ -159,7 +170,7 @@ export const getFormattedDate = (format, date) => {
   return moment().format(format);
 };
 
-export const getJsonString = (str) => {
+export const getJsonString = (str: string): any => {
   try {
     if (str.toString() === "null") throw new Error();
     return JSON.parse(str);
@@ -168,34 +179,34 @@ export const getJsonString = (str) => {
   }
 };
 
-const isObject = function (obj) {
+const isObject = function (obj: any): boolean {
   return obj === Object(obj) && !isArray(obj) && typeof obj !== "function";
 };
 
-export const isArray = function (array) {
+export const isArray = function (array: any): boolean {
   return Array.isArray(array);
 };
 
-const toCamel = (str) => {
+const toCamel = (str: string): string => {
   return str.replace(/([-_][a-z])/gi, ($1) => {
     return $1.toUpperCase().replace("-", "").replace("_", "");
   });
 };
 
-export const keysToCamel = function (obj) {
-  if (isObject(obj)) {
-    const n = {};
+// export const keysToCamel = function (obj: any): any {
+//   if (isObject(obj)) {
+//     const n = {};
 
-    Object.keys(obj).forEach((key) => {
-      n[toCamel(key)] = keysToCamel(obj[key]);
-    });
+//     Object.keys(obj).forEach((key) => {
+//       n[toCamel(key)] = keysToCamel(obj[key]);
+//     });
 
-    return n;
-  } else if (isArray(obj)) {
-    return obj.map((index) => {
-      return keysToCamel(index);
-    });
-  }
+//     return n;
+//   } else if (isArray(obj)) {
+//     return obj.map((index) => {
+//       return keysToCamel(index);
+//     });
+//   }
 
-  return obj;
-};
+//   return obj;
+// };
