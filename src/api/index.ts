@@ -48,11 +48,9 @@ export const getResponse = (
     isBase64Encoded: false,
     headers: {
       contentType,
-      headers: {
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE",
-      },
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE",
     },
   };
   return resMessage;
