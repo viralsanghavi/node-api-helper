@@ -47,11 +47,10 @@ export const getResponse = (
     statusCode: statusCode,
     isBase64Encoded: false,
     headers: {
-      contentType,
-      "Content-Type": "application/json",
-      Allow: "GET, OPTIONS, POST, PUT, DELETE",
+      "Content-Type": contentType,
+      "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "OPTIONS ,POST ,GET ,PUT ,DELETE",
+      "Access-Control-Allow-Methods": "*",
     },
   };
   return resMessage;
